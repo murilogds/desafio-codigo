@@ -95,7 +95,22 @@ function getKudosForUser(points) {
   Recebe: Recebe um array contendo os nomes dos kudos de um usuário. Ex.: ['OK', 'GOOD']
   Retorna: a mensagem padrão com o valor em reais dos kudos por extenso. Ex.: Parabéns, você ganhou vinte e cinco reais
 */
-function getKudosValueMessageForUser(kudos) {}
+function getKudosValueMessageForUser(kudos) {
+  let value = 0;
+  kudos.forEach((kudo) => {
+    value += KUDOS_TO_REAL.find((obj) => obj.name === kudo).value;
+  })
+
+  const numberInFull = getNumberInFull(value);
+
+  let message = `Você recebeu ${numberInFull} reais em retorno aos kudos `;
+  
+  for (let index = 0; index < kudos.length - 1; index++) {
+    message += `${kudos[index]}, `;
+  }
+  message += `${kudos[kudos.length - 1]}!`;
+  return message;
+}
 
 
 module.exports = {
