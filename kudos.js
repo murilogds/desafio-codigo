@@ -16,6 +16,62 @@ const KUDOS_TO_REAL = [
   { name: 'SUPER', value: 25 },
 ];
 
+// Descrição dos Valores por Extenso
+const CENTENAS = [
+  "cento", "duzentos", "trezentos",
+  "quatrocentos", "quinhentos", "seiscentos",
+  "setecentos", "oitocentos", "novecentos"
+];
+
+const DEZENAS = [
+  "vinte", "trinta", "quarenta", "cinquenta",
+  "sessenta", "setenta", "oitenta", "noventa"
+];
+
+const UM_A_DEZENOVE = [
+  "um", "dois", "três", "quatro", "cinco",
+  "seis", "sete", "oito", "nove", "dez",
+  "onze", "doze", "treze", "quatorze", "quinze",
+  "dezesseis", "dezessete", "dezoito", "dezenove"
+];
+
+
+/*
+  Recebe: Um número inteiro representando um valor a ser convertido pra extenso(menor que um milhão). Ex.: 25, 13
+  Retorna: Uma string com o número escrito por extenso. Ex.: vinte e cinco, treze
+*/
+function getNumberInFull(value) {
+  let message = '';
+  
+  if (value >= 1000) {
+    message += getNumberInFull(parseInt(value / 1000));
+    message += ' mil';
+    value = value % 1000;
+  }
+
+  let number;
+  
+  while (value > 0) {
+    if (value > 100) {
+      number = CENTENAS[parseInt(value / 100) - 1];
+      value = value % 100;
+    } else if (value === 100) {
+      number = 'cem';
+      value = 0;
+    } else if (value >= 20) {
+      number = DEZENAS[parseInt(value / 10) - 2];
+      value = value % 10;
+    } else {
+      number = UM_A_DEZENOVE[parseInt(value) - 1];
+      value = 0;
+    }
+    if (message === '') message += `${number}`;
+    else message += ` e ${number}`;
+  }
+  
+  return message;
+}
+
 /* 
   Recebe: um int representando o número de pontos do usuário
   Retorna: um array contendo os kudos. Ex.: ['OK', 'GOOD'] 
@@ -40,6 +96,7 @@ function getKudosForUser(points) {
   Retorna: a mensagem padrão com o valor em reais dos kudos por extenso. Ex.: Parabéns, você ganhou vinte e cinco reais
 */
 function getKudosValueMessageForUser(kudos) {}
+
 
 module.exports = {
   getKudosForUser,
